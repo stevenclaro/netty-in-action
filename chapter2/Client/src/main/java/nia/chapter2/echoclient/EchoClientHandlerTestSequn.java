@@ -13,18 +13,21 @@ import io.netty.util.CharsetUtil;
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
 @Sharable
-public class EchoClientHandler
+public class EchoClientHandlerTestSequn
     extends SimpleChannelInboundHandler<ByteBuf> {
-    @Override
+   /* @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!BySteven",
+       *//* ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!BySteven",
                 CharsetUtil.UTF_8));
-    }
+        System.out.println("当前激活的是"+this.getClass().getName());
+        ctx.fireChannelActive();*//*
+    }*/
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, ByteBuf in) {
         System.out.println(
-                "Client received: " + in.toString(CharsetUtil.UTF_8));
+                "Client receivedTest: " + in.toString(CharsetUtil.UTF_8)+this.getClass().getName());
+       // ctx.fireChannelRead(in);
     }
 
     @Override

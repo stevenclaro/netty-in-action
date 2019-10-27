@@ -15,11 +15,11 @@ import java.net.InetSocketAddress;
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
-public class EchoClient {
+public class EchoClientTestSequ {
     private final String host;
     private final int port;
 
-    public EchoClient(String host, int port) {
+    public EchoClientTestSequ(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -36,6 +36,10 @@ public class EchoClient {
                     @Override
                     public void initChannel(SocketChannel ch)
                         throws Exception {
+                        ch.pipeline().addLast(
+                                new EchoClientHandlerTestSequn());
+                        ch.pipeline().addLast(
+                                new EchoClientHandlerTestSequnSecond());
                         ch.pipeline().addLast(
                              new EchoClientHandler());
                     }
@@ -62,7 +66,7 @@ public class EchoClient {
         final int port = Integer.parseInt(args[1]);*/
         final String host = "127.0.0.1";
         final int port = 1008;
-        new EchoClient(host, port).start();
+        new EchoClientTestSequ(host, port).start();
     }
 }
 

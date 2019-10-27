@@ -16,10 +16,10 @@ import java.net.InetSocketAddress;
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
-public class EchoServer {
+public class EchoServerReadoutTime {
     private final int port;
 
-    public EchoServer(int port) {
+    public EchoServerReadoutTime(int port) {
         this.port = port;
     }
 
@@ -33,7 +33,7 @@ public class EchoServer {
         }
         int port = Integer.parseInt(args[0]);*/
        int port=1008;
-        new EchoServer(port).start();
+        new EchoServerReadoutTime(port).start();
     }
 
     public void start() throws Exception {
@@ -48,13 +48,14 @@ public class EchoServer {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) throws Exception {
-
+                        ch.pipeline().addLast("readTimeoutHandler",
+                                new ReadTimeoutHandler(50000));
                         ch.pipeline().addLast(serverHandler);
                     }
                 });
 
             ChannelFuture f = b.bind().sync();
-            System.out.println(EchoServer.class.getName() +
+            System.out.println(EchoServerReadoutTime.class.getName() +
                 " started and listening for connections on " + f.channel().localAddress());
             f.channel().closeFuture().sync();
         } finally {

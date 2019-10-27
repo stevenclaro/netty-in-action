@@ -7,6 +7,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 
 import java.net.InetSocketAddress;
 
@@ -15,11 +16,11 @@ import java.net.InetSocketAddress;
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
-public class EchoClient {
+public class EchoClientReadTimeOutHandler {
     private final String host;
     private final int port;
 
-    public EchoClient(String host, int port) {
+    public EchoClientReadTimeOutHandler(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -38,6 +39,8 @@ public class EchoClient {
                         throws Exception {
                         ch.pipeline().addLast(
                              new EchoClientHandler());
+                        ch.pipeline().addLast("readTimeoutHandler",
+                                new ReadTimeoutHandler(50000));
                     }
                 });
             ChannelFuture f = b.connect().sync();
@@ -62,7 +65,7 @@ public class EchoClient {
         final int port = Integer.parseInt(args[1]);*/
         final String host = "127.0.0.1";
         final int port = 1008;
-        new EchoClient(host, port).start();
+        new EchoClientReadTimeOutHandler(host, port).start();
     }
 }
 
