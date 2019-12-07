@@ -49,11 +49,14 @@ public class ChatServer {
     }
 
     public static void main(String[] args) throws Exception {
+        /*args=new String[5];
+        args[0]="8081";
         if (args.length != 1) {
             System.err.println("Please give port as argument");
             System.exit(1);
-        }
-        int port = Integer.parseInt(args[0]);
+        }*/
+        //int port = Integer.parseInt(args[0]);
+        int port=8081;
         final ChatServer endpoint = new ChatServer();
         ChannelFuture future = endpoint.start(
                 new InetSocketAddress(port));
